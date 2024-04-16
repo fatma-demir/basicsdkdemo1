@@ -6,9 +6,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,81 +15,67 @@ import java.time.Duration;
 import io.appium.java_client.android.AndroidDriver;
 
 public class basicsdkdemo {
-    public AndroidDriver driver;
+    private AndroidDriver driver;
+    private WebDriverWait wait;
 
-    By usernameFieldBy = By.id("usernameFieldId");
-    By platformFieldBy = By.id("platrformFieldId");
-    By passwordFieldBy = By.id("passwordFieldId"); // Assuming this is the ID of the password field
-    By iceTimeoutBy = By.id("iceTimeoutFieldId");
-    By accountFieldBy = By.id("accountFieldId");
-    By restIpBy= By.id("restIpFieldId");
-    By restPortBy= By.id("restPortFieldId");
-    By loginButtonBy = By.id("loginButtonId"); // Assuming this is the ID of the login button
-    By allowWhenUsingBy =  By.id("com.android.permissioncontroller:id/permission_allow_foreground_only_button");
-    By animationBy      = By.id("com.genband.basicsdkdemo:id/animation_view");
-
-
-
-
-    @BeforeMethod
+    @BeforeTest
     public void setup() throws MalformedURLException {
-
         DesiredCapabilities caps = new DesiredCapabilities();
-
         caps.setCapability("deviceName", "Pixel 7 Pro");
-        caps.setCapability("udid", "emulator-5554"); //DeviceId from "adb devices" command
+        caps.setCapability("udid", "emulator-5554");
         caps.setCapability("platformName", "Android");
         caps.setCapability("platformVersion", "10.0");
         caps.setCapability("skipUnlock", "true");
-        caps.setCapability("appPackage", "com.genband.basicsdkdemo"); // Change this to your app's package name
-        caps.setCapability("appActivity", "com.genband.basicsdkdemo.LoginActivity"); // Change this to your app's login activity
+        caps.setCapability("appPackage", "com.genband.basicsdkdemo");
+        caps.setCapability("appActivity", "com.genband.basicsdkdemo.LoginActivity");
         caps.setCapability("noReset", "false");
 
-
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), caps);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
-        WebElement allowButton = driver.findElement(allowWhenUsingBy);
-        allowButton.click();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        System.out.println();
+
+
     }
 
     @Test
-    public void basicTest() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
-
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(animationBy));
+    public void loginTest() {
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/animation_view")));
         element.click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(allowWhenUsingBy));
-        if (wait.until(ExpectedConditions.visibilityOfElementLocated(allowWhenUsingBy)).isDisplayed()) {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(allowWhenUsingBy)).click();
+        driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout')]"));{
+            WebElement allowButton = driver.findElement(By.id("com.android.permissioncontroller:id/permission_allow_button"));
+            allowButton.click();
         }
-        WebElement platformField = wait.until(ExpectedConditions.visibilityOfElementLocated(platformFieldBy));
-        String optionToSelect = "sr1.kandycorp.net";
-        Select select = new Select(platformField);
-        select.selectByVisibleText(optionToSelect);
-        WebElement accountField = wait.until(ExpectedConditions.visibilityOfElementLocated(accountFieldBy));
-        String accountToSelect = "adem1@spidr.com";
-        Select selectAccount = new Select(accountField);
-        selectAccount.selectByVisibleText(accountToSelect);
 
+        try {
+            WebElement allowButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.android.permissioncontroller:id/permission_allow_foreground_only_button")));
+            allowButton.click();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame("iframe_id");
+        WebElement login = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loginType")));
+        new Select(login).selectByVisibleText("basic");
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameFieldBy)).sendKeys("adem1@spidr.com");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(restIpBy)).sendKeys("red.rbbn.com");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(restPortBy)).sendKeys("443");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(iceTimeoutBy)).sendKeys("3");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordFieldBy)).sendKeys("1234");
-        wait.until(ExpectedConditions.elementToBeClickable(loginButtonBy)).click();
+        WebElement platform = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("platrform")));
+        new Select(platform).selectByVisibleText("sr1.kandycorp.net");
 
-        WebElement allowButton = driver.findElement(allowWhenUsingBy);
-        allowButton.click();
-        // You can add assertions here to verify successful login
-        // For example:
-        // Assert.assertTrue(driver.findElement(By.id("welcomeMessageId")).isDisplayed());
+        WebElement account = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("account")));
+        new Select(account).selectByVisibleText("adem1@spidr.com");
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/userName"))).sendKeys("adem1@spidr.com");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/password_layout"))).sendKeys("1234");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/restIP"))).sendKeys("red.rbbn.com");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/restport"))).sendKeys("443");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iceTimeout"))).sendKeys("3");
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("loginButton"))).click();
+        driver.switchTo().defaultContent();
     }
 
     @AfterMethod
     public void teardown() {
         driver.quit();
-    }
-}
 
+    }}
