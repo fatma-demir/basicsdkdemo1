@@ -1,7 +1,6 @@
 package org.example;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -54,19 +53,19 @@ public class basicsdkdemo {
         passwordField.sendKeys("1234");
 
 
-        WebElement restIPField = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[11]/android.widget.TextView\n")));
+        WebElement restIPField = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/restIP")));
 
         restIPField.click();
         restIPField.clear();
         restIPField.sendKeys("red.rbbn.com");
 
         // Rest port doldurma
-        WebElement restPortField = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[12]/android.widget.EditText")));
-        restPortField.sendKeys("443");
+
 
         // Ice timeout doldurma
-        WebElement iceTimeoutField = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[13]/android.widget.EditText")));
-        iceTimeoutField.sendKeys("3");
+        WebElement restIceTimeOutField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[13]/android.widget.EditText")));
+        restIceTimeOutField.click();
+        restIceTimeOutField.sendKeys("3");
 
 
 
@@ -76,16 +75,11 @@ public class basicsdkdemo {
             allowButton.click();
         }
 
-        try {
-            WebElement allowButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.android.permissioncontroller:id/permission_allow_foreground_only_button")));
-            allowButton.click();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        driver.switchTo().frame("iframe_id");
+        
+        
 
         wait.until(ExpectedConditions.elementToBeClickable(By.id("loginButton"))).click();
-        driver.switchTo().defaultContent();
+     
     }
 
     @AfterMethod
