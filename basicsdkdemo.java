@@ -1,10 +1,10 @@
 package org.example;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
@@ -33,17 +33,45 @@ public class basicsdkdemo {
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), caps);
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-        System.out.println();
 
+        WebElement allowButton = driver.findElement(By.id("com.android.permissioncontroller:id/permission_allow_button"));
+        allowButton.click();
+        WebElement allowButton2 = driver.findElement(By.id("com.android.permissioncontroller:id/permission_allow_button"));
+        allowButton2.click();
+        WebElement allowButton3 = driver.findElement(By.id("com.android.permissioncontroller:id/permission_allow_button"));
+        allowButton3.click();
 
     }
 
     @Test
-    public void loginTest() {
-        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/animation_view")));
+    public void loginTest() throws MalformedURLException {
+
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("android.widget.EditText")));
         element.click();
+        element.clear();
+        element.sendKeys("adem1@spidr.com");
+        WebElement passwordField = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[7]/android.widget.EditText")));
+        passwordField.sendKeys("1234");
+
+
+        WebElement restIPField = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[11]/android.widget.TextView\n")));
+
+        restIPField.click();
+        restIPField.clear();
+        restIPField.sendKeys("red.rbbn.com");
+
+        // Rest port doldurma
+        WebElement restPortField = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[12]/android.widget.EditText")));
+        restPortField.sendKeys("443");
+
+        // Ice timeout doldurma
+        WebElement iceTimeoutField = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[13]/android.widget.EditText")));
+        iceTimeoutField.sendKeys("3");
+
+
 
         driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout')]"));{
+
             WebElement allowButton = driver.findElement(By.id("com.android.permissioncontroller:id/permission_allow_button"));
             allowButton.click();
         }
@@ -55,20 +83,6 @@ public class basicsdkdemo {
             e.printStackTrace();
         }
         driver.switchTo().frame("iframe_id");
-        WebElement login = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loginType")));
-        new Select(login).selectByVisibleText("basic");
-
-        WebElement platform = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("platrform")));
-        new Select(platform).selectByVisibleText("sr1.kandycorp.net");
-
-        WebElement account = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("account")));
-        new Select(account).selectByVisibleText("adem1@spidr.com");
-
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/userName"))).sendKeys("adem1@spidr.com");
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/password_layout"))).sendKeys("1234");
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/restIP"))).sendKeys("red.rbbn.com");
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/restport"))).sendKeys("443");
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iceTimeout"))).sendKeys("3");
 
         wait.until(ExpectedConditions.elementToBeClickable(By.id("loginButton"))).click();
         driver.switchTo().defaultContent();
