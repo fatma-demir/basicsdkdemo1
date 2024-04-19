@@ -43,6 +43,7 @@ public class basicsdkdemo {
     }
 
     @Test
+
     public void loginTest() throws MalformedURLException {
 
         WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("android.widget.EditText")));
@@ -63,27 +64,19 @@ public class basicsdkdemo {
 
 
         // Ice timeout doldurma
-        WebElement restIceTimeOutField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[13]/android.widget.EditText")));
+        WebElement restIceTimeOutField = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/iceTimeOut")));
         restIceTimeOutField.click();
         restIceTimeOutField.sendKeys("3");
 
 
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button")).click();
+        {
 
-        driver.findElement(By.xpath("//android.widget.TextView[contains(@text,'android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout')]"));{
 
-            WebElement allowButton = driver.findElement(By.id("com.android.permissioncontroller:id/permission_allow_button"));
-            allowButton.click();
         }
-
-        
-        
-
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("loginButton"))).click();
-     
     }
+@AfterMethod
+public void teardown() {
+    driver.quit();
 
-    @AfterMethod
-    public void teardown() {
-        driver.quit();
-
-    }}
+}}
