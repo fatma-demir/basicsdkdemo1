@@ -1,6 +1,9 @@
+
+
 package org.example;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,6 +15,8 @@ import java.net.URL;
 import java.time.Duration;
 
 import io.appium.java_client.android.AndroidDriver;
+
+
 
 public class basicsdkdemo {
     private AndroidDriver driver;
@@ -41,7 +46,6 @@ public class basicsdkdemo {
         allowButton3.click();
 
     }
-
     @Test
 
     public void loginTest() throws MalformedURLException {
@@ -52,6 +56,7 @@ public class basicsdkdemo {
         element.sendKeys("adem1@spidr.com");
         WebElement passwordField = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.TableLayout/android.widget.LinearLayout[7]/android.widget.EditText")));
         passwordField.sendKeys("1234");
+<<<<<<< Updated upstream
 
 
         WebElement restIPField = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/restIP")));
@@ -74,6 +79,27 @@ public class basicsdkdemo {
 
 
         }
+=======
+
+
+        WebElement restIPField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("com.genband.basicsdkdemo:id/restIP")));
+
+        restIPField.click();
+        restIPField.clear();
+        restIPField.sendKeys("red.rbbn.com");
+
+
+
+
+        // Ice timeout doldurma
+        WebElement restIceTimeOutField = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("com.genband.basicsdkdemo:id/iceTimeOut")));
+        restIceTimeOutField.click();
+        restIceTimeOutField.sendKeys("3");
+
+
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button")).click();{  }
+
+>>>>>>> Stashed changes
     }
 @AfterMethod
 public void teardown() {
